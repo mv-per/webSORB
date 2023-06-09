@@ -1,0 +1,14 @@
+[project]
+name = "webSorb"
+version = "0.0.1"
+authors = [
+  { name="Marcus Pereira", email="mav.pereira@outlook.com" },
+]
+description = "A python API for adsorption data treatment and simulation"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
