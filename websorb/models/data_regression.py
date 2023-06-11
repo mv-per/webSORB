@@ -7,16 +7,17 @@ from websorb.models.isotherm import IsothermType
 
 class IsothermData(BaseModel):  # type:ignore[misc]
     isotherm: str
+    temperature: float
     pressures: list[float] = []
     loadings: list[float] = []
     parameters: Dict[str, float] | None = None
     isotherm_type: IsothermType | None = None
-    temperature: float | None = None
 
 
 class IsothermDataRegression(IsothermData):
     initial_estimates: Dict[str, float] | None = None
     optimization_algorithm: str | None = "Nelder-Mead"
+    deviation_equation: str | None = "SSE"
 
 
 class IsothermDataCalculation(IsothermData):

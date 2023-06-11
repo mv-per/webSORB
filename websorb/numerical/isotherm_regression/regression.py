@@ -1,13 +1,13 @@
+import logging
 from typing import Any, Dict
+
 import attr
 import numpy
-from websorb.models.isotherm import IsothermModel
-from websorb.models.data_regression import IsothermDataRegression
-from websorb.numerical.isotherm_handlers import AbstractIsothermHandler
 from scipy.optimize import minimize
 
-import logging
-
+from websorb.models.data_regression import IsothermDataRegression
+from websorb.models.isotherm import IsothermModel
+from websorb.numerical.isotherm_handlers import AbstractIsothermHandler
 from websorb.numerical.isotherm_handlers.helpers import get_isotherm_handler
 
 
@@ -31,15 +31,13 @@ class Regression:
         )
 
         def objective_function(estimates: list[float]) -> float:
-            calc_loadings = self.isotherm_handler.get_loadings(
-                self.isotherm_data.pressures, estimates
+            return self.isotherm_handler.get_deviation(  # type:ignore[no-any-return]
+                self.isotherm_data.pressures,
+                self.isotherm_data.loadings,
+                self.isotherm_data.temperature,
+                estimates,
+                self.isotherm_data.deviation_equation,
             )
-            difference = [
-                self.get_diff(n_exp, n_calc)
-                for n_exp, n_calc in zip(self.isotherm_data.loadings, calc_loadings)
-            ]
-
-            return sum(difference)
 
         optimization = minimize(
             objective_function, initial_estimates, method="Nelder-Mead"
